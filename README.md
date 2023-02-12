@@ -119,4 +119,50 @@ private:
 - const可施加于任何作用域内的任何对象(参数，返回值，函数本体，局部或全局变量)
 - 提升C++性能的重要做法之一：param-by-reference to const
 - const和non-const有实质等价的实现，可以用non-const调用const版本，减少重复
-   
+## 确定对象被使用前已被初始化
+- 一件很奇怪的事，c++似乎并不清楚，什么时候要帮我们初始化变量。
+```c++
+int x;              // x不被初始化
+int nums[5];        // nums不被初始化
+vector<int> vecs(5);   // vecs被初始化为0
+// c part of C++ 不会被自动初始化, non-c part of c++(stl, object-oriented c++，template)会被初始化为空。
+```
+- 初始化落在了构造函数上，确保每个构造函数都讲对象的每一个成员初始化
+- 不要混淆初始化和赋值
+  - 赋值
+    ```c++
+    class PhoneNumber {...}
+    class ABEntry {
+    public:
+        ABEntry(cosnt string& name, const string& address, const list<PhoneNumber>& phones){
+            theName = name;
+            theAddress = address;
+            thePhones = phones;
+            numTimesConsulted = 0;
+        }   
+    private:
+        string theName;
+        string theAddress;
+        list<PhoneNumber> thePhones;
+        int numTimesConsulted;
+    };
+    ```
+  - 初始化列表
+    ```c++
+    class PhoneNumber {...}
+    class ABEntry {
+    public:
+        ABEntry(cosnt string& name, const string& address, const list<PhoneNumber>& phones):theName(name),theAddress(address),thePhones(phones),numTimesConsulted(0){ } 
+    private:
+        string theName;
+        string theAddress;
+        list<PhoneNumber> thePhones;
+        int numTimesConsulted;
+    };
+    ```
+    - 赋值的过程：默认构造函数->拷贝构造函数
+    - 初始化列表：拷贝构造函数
+    - 初始化列表更高效，调用时间更早
+    - 对于内置类型赋值和初始化开销相同，但为了保证一致性，内置类型也用初始化列表
+    - 有些内置类型必须初始化，static，const，reference
+- 跨编译单元的初始化
