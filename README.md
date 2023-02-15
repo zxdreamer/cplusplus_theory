@@ -10,3 +10,4 @@
 ### [case08 在operator=中处理"自我赋值"](Effective_C++/case08.md)
 ### [case09 复制对象时勿忘其每一个成分](Effective_C++/case09.md)
 ### [case10 以对象管理资源](Effective_C++/case10.md)
+### [case 11 Essential C++](Essential_C++/essential.md)
