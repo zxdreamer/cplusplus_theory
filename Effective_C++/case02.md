@@ -1,4 +1,4 @@
-# 尽可能实用const
+# 尽可能使用const
 关键字const多才多艺。
 - 定义常量
 - const最权威的用法是面对函数声明时的作用，在一个函数声明式内，const可以修饰返回值，参数，函数自身。
@@ -11,7 +11,7 @@ const Rational operator*(const Rational& lhs, const Rational& rhs); // 避免(a 
 ```c++
 // 修饰参数
 void f1(Widget* p);         // 一般认为param-by-pointer, 用于改变参数传出函数外
-void f1(const Widget* p);   
+void f1(const Widget* p);   // 可读性上有很大歧义
 void f1(const Widget& r);   // param-by-reference to const 用于传值,建议大家函数不改变参数值时，尽量加上const，因为他是提升C++运行效率很重要的方式之一
 ```
 ```c++
